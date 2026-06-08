@@ -18,6 +18,22 @@ const componentLibOptions = [
   { value: "antd", label: "Ant Design v6" },
 ];
 
+const fontOptions = [
+  { value: "'Inter', sans-serif", label: "Inter" },
+  { value: "'Roboto', sans-serif", label: "Roboto" },
+  { value: "'Barlow', sans-serif", label: "Barlow" },
+  { value: "'Plus Jakarta Sans', sans-serif", label: "Plus Jakarta Sans" },
+  { value: "Arial, sans-serif", label: "Arial (hệ thống)" },
+  { value: "'Times New Roman', serif", label: "Times New Roman (hệ thống)" },
+];
+
+const monoFontOptions = [
+  { value: "'JetBrains Mono', monospace", label: "JetBrains Mono" },
+  { value: "'Roboto Mono', monospace", label: "Roboto Mono" },
+  { value: "'Fira Code', monospace", label: "Fira Code" },
+  { value: "'Courier New', monospace", label: "Courier New (hệ thống)" },
+];
+
 /** Nhãn tiếng Việt cho từng vai trò màu. */
 const colorLabels: Record<string, string> = {
   primary: "Chính (primary)",
@@ -115,44 +131,34 @@ export function BuilderPanels() {
       {/* Typography */}
       <Section title="Kiểu chữ (Typography)">
         <Field label="Font chữ chính">
-          <Input value={config.typography.fontFamilyBase} onChange={(e) => update((c) => { c.typography.fontFamilyBase = e.target.value; })} />
+          <Select
+            value={config.typography.fontFamilyBase}
+            options={fontOptions}
+            onChange={(e) => update((c) => { c.typography.fontFamilyBase = e.target.value; })}
+          />
         </Field>
         <Field label="Font tiêu đề">
-          <Input value={config.typography.fontFamilyHeading} onChange={(e) => update((c) => { c.typography.fontFamilyHeading = e.target.value; })} />
+          <Select
+            value={config.typography.fontFamilyHeading}
+            options={fontOptions}
+            onChange={(e) => update((c) => { c.typography.fontFamilyHeading = e.target.value; })}
+          />
         </Field>
         <Field label="Font mono">
-          <Input value={config.typography.fontFamilyMono} onChange={(e) => update((c) => { c.typography.fontFamilyMono = e.target.value; })} />
+          <Select
+            value={config.typography.fontFamilyMono}
+            options={monoFontOptions}
+            onChange={(e) => update((c) => { c.typography.fontFamilyMono = e.target.value; })}
+          />
         </Field>
         <Field label="Cỡ chữ gốc" hint="Cỡ chữ body, tính bằng px.">
           <Slider value={config.typography.baseSize} min={12} max={20} suffix="px" onValueChange={(v) => update((c) => { c.typography.baseSize = v; })} />
-        </Field>
-        <Field label="Tỉ lệ thang" hint="Hệ số scale (1.25 = major third).">
-          <Slider value={config.typography.scaleRatio} min={1.1} max={1.6} step={0.005} onValueChange={(v) => update((c) => { c.typography.scaleRatio = Math.round(v * 1000) / 1000; })} />
         </Field>
         <Field label="Chiều cao dòng">
           <Slider value={config.typography.lineHeight} min={1.2} max={2} step={0.05} onValueChange={(v) => update((c) => { c.typography.lineHeight = Math.round(v * 100) / 100; })} />
         </Field>
       </Section>
 
-      {/* Khoảng cách */}
-      <Section title="Khoảng cách (Spacing)">
-        <Field label="Đơn vị gốc" hint="Bước khoảng cách tính bằng px (space-1 = đơn vị gốc).">
-          <Slider value={config.spacing.baseUnit} min={2} max={8} suffix="px" onValueChange={(v) => update((c) => { c.spacing.baseUnit = v; })} />
-        </Field>
-        <Field label="Các bậc thang" hint="Các hệ số cách nhau bởi dấu phẩy, vd 0,1,2,3,4,6,8,12,16,24.">
-          <Input
-            value={config.spacing.scale.join(", ")}
-            onChange={(e) =>
-              update((c) => {
-                c.spacing.scale = e.target.value
-                  .split(",")
-                  .map((n) => Number(n.trim()))
-                  .filter((n) => !Number.isNaN(n));
-              })
-            }
-          />
-        </Field>
-      </Section>
 
       {/* Bo góc */}
       <Section title="Bo góc (Radius)">
@@ -186,9 +192,6 @@ export function BuilderPanels() {
             ]}
             onChange={(e) => update((c) => { c.borders.style = e.target.value as typeof c.borders.style; })}
           />
-        </Field>
-        <Field label="Token màu mặc định">
-          <Input value={config.borders.defaultColorToken} onChange={(e) => update((c) => { c.borders.defaultColorToken = e.target.value; })} />
         </Field>
       </Section>
 
@@ -231,9 +234,6 @@ export function BuilderPanels() {
         <Field label="Thời lượng">
           <Slider value={config.animation.durationMs} min={0} max={600} step={10} suffix="ms" onValueChange={(v) => update((c) => { c.animation.durationMs = v; })} />
         </Field>
-        <Field label="Easing">
-          <Input value={config.animation.easing} onChange={(e) => update((c) => { c.animation.easing = e.target.value; })} />
-        </Field>
       </Section>
 
       {/* Trạng thái tương tác */}
@@ -267,16 +267,6 @@ export function BuilderPanels() {
 
       {/* Components */}
       <Section title="Thành phần (Components)">
-        <Field label="Các biến thể Button" hint="Cách nhau bởi dấu phẩy.">
-          <Input
-            value={config.components.button.variants.join(", ")}
-            onChange={(e) =>
-              update((c) => {
-                c.components.button.variants = e.target.value.split(",").map((v) => v.trim()).filter(Boolean);
-              })
-            }
-          />
-        </Field>
         <Field label="Cỡ Button mặc định">
           <Select
             value={config.components.button.defaultSize}

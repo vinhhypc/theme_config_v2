@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "./fonts.css";
 import "./globals.css";
 import "highlight.js/styles/github.css";
 import { Nav } from "@/components/nav";

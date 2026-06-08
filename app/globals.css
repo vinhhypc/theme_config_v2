@@ -17,7 +17,7 @@
   --app-primary-foreground: 0 0% 100%;
   --app-accent: 38 92% 50%;
   --app-destructive: 0 72% 51%;
-  --font-app-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-app-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
 .dark {

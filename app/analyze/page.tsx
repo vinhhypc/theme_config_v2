@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { Loader2, ShieldAlert, Wand2, ListChecks, GitCompare, AlertCircle, Check, Download } from "lucide-react";
+import { useEffect, useCallback, useMemo, useState } from "react";
+import { Loader2, ShieldAlert, Wand2, ListChecks, GitCompare, AlertCircle, Check, Download, Eye, X, Maximize2, Minimize2 } from "lucide-react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { useConfigStore } from "@/store/configStore";
@@ -40,6 +40,22 @@ export default function AnalyzePage() {
   const [analyzing, setAnalyzing] = useState(false);
   const [refactoring, setRefactoring] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewFullscreen, setPreviewFullscreen] = useState(false);
+
+  const canPreview = files.some((f) => /\.html?$/.test(f.path));
+
+  const openPreview = useCallback(async () => {
+    const res = await fetch("/api/preview", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ files }),
+    });
+    const data = (await res.json()) as { id: string; url: string };
+    setPreviewUrl(data.url);
+    setShowPreview(true);
+  }, [files]);
 
   const acceptedRules = useMemo(
     () => proposed.filter((_, i) => selected.has(i)).map((p) => p.rule),
@@ -113,7 +129,7 @@ export default function AnalyzePage() {
   if (!mounted) return null;
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 p-6">
+    <div className="mx-auto max-w-6xl space-y-6 p-6 lg:max-w-[90rem] lg:px-10">
       <div>
         <h1 className="text-2xl font-semibold">Phân tích &amp; Refactor</h1>
         <p className="text-sm text-muted-foreground">
@@ -143,6 +159,12 @@ export default function AnalyzePage() {
                   {refactoring ? <Loader2 className="h-4 w-4 animate-spin" /> : <Wand2 className="h-4 w-4" />}
                   Refactor
                 </Button>
+                {canPreview && (
+                  <Button variant="outline" onClick={openPreview}>
+                    <Eye className="h-4 w-4" />
+                    Xem trước
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -257,6 +279,42 @@ export default function AnalyzePage() {
           )}
         </div>
       </div>
+
+      {showPreview && (
+        <div className={cn("fixed inset-0 z-50 flex items-center justify-center bg-black/50", !previewFullscreen && "p-4")}>
+          <div className={cn(
+            "relative flex flex-col overflow-hidden bg-background shadow-2xl",
+            previewFullscreen
+              ? "h-full w-full"
+              : "h-[90vh] w-full max-w-5xl rounded-xl border border-border lg:max-w-7xl",
+          )}>
+            <div className="flex items-center justify-between border-b border-border px-4 py-3">
+              <h3 className="text-sm font-semibold">Xem trước giao diện</h3>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => setPreviewFullscreen((v) => !v)}
+                  className="rounded-md p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+                  aria-label={previewFullscreen ? "Thu nhỏ" : "Phóng to"}
+                >
+                  {previewFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+                </button>
+                <button
+                  onClick={() => { setShowPreview(false); setPreviewFullscreen(false); }}
+                  className="rounded-md p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+                  aria-label="Đóng"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+            <iframe
+              src={previewUrl ?? "about:blank"}
+              title="Preview"
+              className="flex-1 bg-white"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

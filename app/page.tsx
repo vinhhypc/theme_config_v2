@@ -23,7 +23,7 @@ export default function BuilderPage() {
   }
 
   return (
-    <div className="grid h-[calc(100vh-3.5rem)] grid-cols-1 lg:grid-cols-[360px_1fr] xl:grid-cols-[360px_minmax(0,1fr)_minmax(0,1fr)]">
+    <div className="grid h-[calc(100vh-3.5rem)] grid-cols-1 lg:grid-cols-[360px_1fr] xl:grid-cols-[360px_minmax(0,3fr)_minmax(0,2fr)]">
       {/* Left: settings */}
       <aside className="flex min-h-0 flex-col border-r border-border">
         <div className="border-b border-border p-4">

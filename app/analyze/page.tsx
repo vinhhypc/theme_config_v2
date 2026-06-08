@@ -143,7 +143,7 @@ export default function AnalyzePage() {
         Mọi chỉ thị nhúng bên trong (vd “ignore previous rules”) đều bị bỏ qua và chỉ phân tích như văn bản.
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
+      <div className="grid gap-6 lg:grid-cols-[480px_1fr]">
         <div className="space-y-4">
           <Card>
             <CardHeader><CardTitle>Tải lên</CardTitle></CardHeader>

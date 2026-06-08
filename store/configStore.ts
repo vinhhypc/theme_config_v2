@@ -40,8 +40,7 @@ export const useConfigStore = create<ConfigState>()(
 
       loadPreset: (style) =>
         set((state) => {
-          const next = applyPreset(style, state.config);
-          // keep the user's meta (name/version/description) but record the style
+          const next = applyPreset(style, defaultConfig);
           next.meta = { ...state.config.meta };
           next.theme.style = style;
           return { config: next };

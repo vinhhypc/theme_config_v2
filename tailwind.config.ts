@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 /**
- * Tailwind config for the DesignSync Studio *app itself*.
+ * Tailwind config for the Theme Config *app itself*.
  * Note: this is intentionally separate from the design system the user
  * is configuring inside the app (that one lives in CSS variables injected
  * by the live preview). The app uses CSS-variable-backed semantic tokens

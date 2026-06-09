@@ -1,5 +1,5 @@
 /**
- * The central data model for DesignSync Studio.
+ * The central data model for Theme Config.
  * Every exported markdown file is derived purely from a `DesignConfig`.
  */
 

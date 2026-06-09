@@ -1,4 +1,4 @@
-# DesignSync Studio (`config-theme-v2`)
+# Theme Config (`config-theme-v2`)
 
 Define a design system once, export a set of `.md` rule files, and keep every AI code
 generation in sync with the same tokens, guidelines and constraints.

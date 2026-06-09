@@ -2,7 +2,7 @@
 
 import { useConfigStore } from "@/store/configStore";
 import { COLOR_ROLES, stackSupportsComponentLib } from "@/lib/config/types";
-import { Field, Input, Select, Slider, Switch, Textarea } from "@/components/ui";
+import { Field, InfoIcon, Input, Select, Slider, Switch, Textarea, Tooltip } from "@/components/ui";
 import { Section, ColorField } from "./controls";
 
 const stackOptions = [
@@ -62,7 +62,7 @@ export function BuilderPanels() {
             onChange={(e) => update((c) => { c.meta.name = e.target.value; })}
           />
         </Field>
-        <Field label="Stack mục tiêu">
+        <Field label="Stack mục tiêu" tooltip="Quyết định mẫu code (React, Vue, HTML…) trong component-patterns.md.">
           <Select
             value={config.meta.targetStack}
             options={stackOptions}
@@ -76,7 +76,7 @@ export function BuilderPanels() {
           />
         </Field>
         {stackSupportsComponentLib(config.meta.targetStack) ? (
-          <Field label="Thư viện component" hint="Kết hợp với stack React, ví dụ: React + Tailwind + shadcn.">
+          <Field label="Thư viện component" hint="Kết hợp với stack React, ví dụ: React + Tailwind + shadcn." tooltip="Thay đổi cấu trúc import & cách dùng component trong component-patterns.md.">
             <Select
               value={config.meta.componentLib}
               options={componentLibOptions}
@@ -88,7 +88,7 @@ export function BuilderPanels() {
 
       {/* Giao diện */}
       <Section title="Giao diện" description="Chế độ sáng/tối và phong cách tổng thể.">
-        <Field label="Chế độ">
+        <Field label="Chế độ" tooltip="Sinh biến CSS cho light/dark hoặc cả hai → design-tokens.md & design-guidelines.md.">
           <Select
             value={config.theme.mode}
             options={[
@@ -99,7 +99,7 @@ export function BuilderPanels() {
             onChange={(e) => update((c) => { c.theme.mode = e.target.value as typeof c.theme.mode; })}
           />
         </Field>
-        <Field label="Phong cách" hint="Chọn phong cách sẽ áp dụng preset tương ứng (màu, font, bo góc, bóng, hiệu ứng).">
+        <Field label="Phong cách" hint="Chọn phong cách sẽ áp dụng preset tương ứng (màu, font, bo góc, bóng, hiệu ứng)." tooltip="Áp preset toàn bộ → ảnh hưởng tất cả file .md (tokens, guidelines, patterns…).">
           <Select
             value={config.theme.style}
             options={[
@@ -130,31 +130,31 @@ export function BuilderPanels() {
 
       {/* Typography */}
       <Section title="Kiểu chữ (Typography)">
-        <Field label="Font chữ chính">
+        <Field label="Font chữ chính" tooltip="Font body text → bảng Typography trong design-tokens.md.">
           <Select
             value={config.typography.fontFamilyBase}
             options={fontOptions}
             onChange={(e) => update((c) => { c.typography.fontFamilyBase = e.target.value; })}
           />
         </Field>
-        <Field label="Font tiêu đề">
+        <Field label="Font tiêu đề" tooltip="Font cho h1–h6 → bảng Typography trong design-tokens.md.">
           <Select
             value={config.typography.fontFamilyHeading}
             options={fontOptions}
             onChange={(e) => update((c) => { c.typography.fontFamilyHeading = e.target.value; })}
           />
         </Field>
-        <Field label="Font mono">
+        <Field label="Font mono" tooltip="Font cho code/pre → bảng Typography trong design-tokens.md.">
           <Select
             value={config.typography.fontFamilyMono}
             options={monoFontOptions}
             onChange={(e) => update((c) => { c.typography.fontFamilyMono = e.target.value; })}
           />
         </Field>
-        <Field label="Cỡ chữ gốc" hint="Cỡ chữ body, tính bằng px.">
+        <Field label="Cỡ chữ gốc" hint="Cỡ chữ body, tính bằng px." tooltip="Base font-size, dùng để tính type scale → design-tokens.md.">
           <Slider value={config.typography.baseSize} min={12} max={20} suffix="px" onValueChange={(v) => update((c) => { c.typography.baseSize = v; })} />
         </Field>
-        <Field label="Chiều cao dòng">
+        <Field label="Chiều cao dòng" tooltip="Line-height mặc định cho body → design-tokens.md.">
           <Slider value={config.typography.lineHeight} min={1.2} max={2} step={0.05} onValueChange={(v) => update((c) => { c.typography.lineHeight = Math.round(v * 100) / 100; })} />
         </Field>
       </Section>
@@ -162,7 +162,7 @@ export function BuilderPanels() {
 
       {/* Bo góc */}
       <Section title="Bo góc (Radius)">
-        <Field label="Kiểu">
+        <Field label="Kiểu" tooltip="Kiểu bo góc tổng thể → bảng Radius trong design-tokens.md.">
           <Select
             value={config.radius.style}
             options={[
@@ -173,17 +173,17 @@ export function BuilderPanels() {
             onChange={(e) => update((c) => { c.radius.style = e.target.value as typeof c.radius.style; })}
           />
         </Field>
-        <Field label="Độ bo gốc">
+        <Field label="Độ bo gốc" tooltip="Giá trị base radius, sinh ra các bậc sm/md/lg/xl → design-tokens.md.">
           <Slider value={config.radius.base} min={0} max={32} suffix="px" onValueChange={(v) => update((c) => { c.radius.base = v; })} />
         </Field>
       </Section>
 
       {/* Viền */}
       <Section title="Viền (Borders)">
-        <Field label="Độ dày">
+        <Field label="Độ dày" tooltip="Border width mặc định → bảng Borders trong design-tokens.md.">
           <Slider value={config.borders.width} min={0} max={6} suffix="px" onValueChange={(v) => update((c) => { c.borders.width = v; })} />
         </Field>
-        <Field label="Kiểu">
+        <Field label="Kiểu" tooltip="Border style (solid/dashed) → design-tokens.md.">
           <Select
             value={config.borders.style}
             options={[
@@ -197,7 +197,7 @@ export function BuilderPanels() {
 
       {/* Đổ bóng */}
       <Section title="Đổ bóng (Elevation)">
-        <Field label="Kiểu">
+        <Field label="Kiểu" tooltip="Phong cách đổ bóng (flat/soft/hard) → bảng Elevation trong design-tokens.md.">
           <Select
             value={config.elevation.style}
             options={[
@@ -208,7 +208,7 @@ export function BuilderPanels() {
             onChange={(e) => update((c) => { c.elevation.style = e.target.value as typeof c.elevation.style; })}
           />
         </Field>
-        <Field label="Số bậc">
+        <Field label="Số bậc" tooltip="Số cấp shadow (1–6) được sinh → bảng Elevation trong design-tokens.md.">
           <Slider value={config.elevation.levels} min={1} max={6} onValueChange={(v) => update((c) => { c.elevation.levels = v; })} />
         </Field>
       </Section>
@@ -216,10 +216,10 @@ export function BuilderPanels() {
       {/* Animation */}
       <Section title="Hiệu ứng (Animation)">
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium">Bật hiệu ứng</span>
+          <span className="text-sm font-medium flex items-center gap-1.5">Bật hiệu ứng <Tooltip text="Bật/tắt animation toàn cục → design-tokens.md & design-guidelines.md."><InfoIcon /></Tooltip></span>
           <Switch checked={config.animation.enabled} onCheckedChange={(v) => update((c) => { c.animation.enabled = v; })} />
         </div>
-        <Field label="Kiểu">
+        <Field label="Kiểu" tooltip="Kiểu animation (subtle/smooth/bouncy) → bảng Animation trong design-tokens.md.">
           <Select
             value={config.animation.style}
             options={[
@@ -231,14 +231,14 @@ export function BuilderPanels() {
             onChange={(e) => update((c) => { c.animation.style = e.target.value as typeof c.animation.style; })}
           />
         </Field>
-        <Field label="Thời lượng">
+        <Field label="Thời lượng" tooltip="Duration mặc định cho transition/animation → design-tokens.md.">
           <Slider value={config.animation.durationMs} min={0} max={600} step={10} suffix="ms" onValueChange={(v) => update((c) => { c.animation.durationMs = v; })} />
         </Field>
       </Section>
 
       {/* Trạng thái tương tác */}
       <Section title="Trạng thái tương tác" description="Khai báo hiệu ứng khi hover / nhấn / focus cho button, card, link.">
-        <Field label="Hiệu ứng hover" hint="Áp dụng khi rê chuột vào button/card.">
+        <Field label="Hiệu ứng hover" hint="Áp dụng khi rê chuột vào button/card." tooltip="Hiệu ứng hover cho button/card → mục Interaction States trong design-guidelines.md.">
           <Select
             value={config.interactions.hover}
             options={[
@@ -252,22 +252,22 @@ export function BuilderPanels() {
           />
         </Field>
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium">Phản hồi khi nhấn (active)</span>
+          <span className="text-sm font-medium flex items-center gap-1.5">Phản hồi khi nhấn (active) <Tooltip text="Hiệu ứng scale-down khi nhấn button → design-guidelines.md." align="center"><InfoIcon /></Tooltip></span>
           <Switch checked={config.interactions.pressFeedback} onCheckedChange={(v) => update((c) => { c.interactions.pressFeedback = v; })} />
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium">Vòng focus (bàn phím)</span>
+          <span className="text-sm font-medium flex items-center gap-1.5">Vòng focus (bàn phím) <Tooltip text="Hiển thị focus ring khi dùng bàn phím → design-guidelines.md."><InfoIcon /></Tooltip></span>
           <Switch checked={config.interactions.focusRing} onCheckedChange={(v) => update((c) => { c.interactions.focusRing = v; })} />
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium">Gạch chân link khi hover</span>
+          <span className="text-sm font-medium flex items-center gap-1.5">Gạch chân link khi hover <Tooltip text="Link có underline khi hover hay không → design-guidelines.md." align="center"><InfoIcon /></Tooltip></span>
           <Switch checked={config.interactions.underlineLinks} onCheckedChange={(v) => update((c) => { c.interactions.underlineLinks = v; })} />
         </div>
       </Section>
 
       {/* Components */}
       <Section title="Thành phần (Components)">
-        <Field label="Cỡ Button mặc định">
+        <Field label="Cỡ Button mặc định" tooltip="Kích thước mặc định của Button → mẫu code trong component-patterns.md.">
           <Select
             value={config.components.button.defaultSize}
             options={[
@@ -278,7 +278,7 @@ export function BuilderPanels() {
             onChange={(e) => update((c) => { c.components.button.defaultSize = e.target.value as "sm" | "md" | "lg"; })}
           />
         </Field>
-        <Field label="Biến thể Input">
+        <Field label="Biến thể Input" tooltip="Style mặc định của Input (outline/filled/underline) → component-patterns.md.">
           <Select
             value={config.components.input.variant}
             options={[
@@ -289,7 +289,7 @@ export function BuilderPanels() {
             onChange={(e) => update((c) => { c.components.input.variant = e.target.value as typeof c.components.input.variant; })}
           />
         </Field>
-        <Field label="Biến thể Card">
+        <Field label="Biến thể Card" tooltip="Style mặc định của Card (elevated/outlined/flat) → component-patterns.md.">
           <Select
             value={config.components.card.variant}
             options={[
@@ -307,7 +307,7 @@ export function BuilderPanels() {
             ["table", "Table"],
           ] as const).map(([comp, label]) => (
             <div key={comp} className="flex items-center justify-between">
-              <span className="text-sm font-medium">Bao gồm {label}</span>
+              <span className="text-sm font-medium flex items-center gap-1.5">Bao gồm {label} <Tooltip text={`Bật để sinh mẫu code ${label} → component-patterns.md.`}><InfoIcon /></Tooltip></span>
               <Switch
                 checked={config.components[comp].enabled}
                 onCheckedChange={(v) => update((c) => { c.components[comp].enabled = v; })}
@@ -320,14 +320,14 @@ export function BuilderPanels() {
       {/* AI Rules */}
       <Section title="Quy tắc AI">
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium">Chỉ dùng token</span>
+          <span className="text-sm font-medium flex items-center gap-1.5">Chỉ dùng token <Tooltip text="Bắt buộc AI chỉ dùng design token, không hardcode giá trị → ai-rules.md."><InfoIcon /></Tooltip></span>
           <Switch checked={config.aiRules.enforceTokensOnly} onCheckedChange={(v) => update((c) => { c.aiRules.enforceTokensOnly = v; })} />
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium">Clean code</span>
+          <span className="text-sm font-medium flex items-center gap-1.5">Clean code <Tooltip text="Bắt buộc AI viết code sạch (không inline style, không magic number…) → ai-rules.md."><InfoIcon /></Tooltip></span>
           <Switch checked={config.aiRules.cleanCode} onCheckedChange={(v) => update((c) => { c.aiRules.cleanCode = v; })} />
         </div>
-        <Field label="Quy ước đặt tên">
+        <Field label="Quy ước đặt tên" tooltip="Naming convention cho class/biến (Tailwind/CSS vars/BEM) → ai-rules.md.">
           <Select
             value={config.aiRules.namingConvention}
             options={[
@@ -338,7 +338,7 @@ export function BuilderPanels() {
             onChange={(e) => update((c) => { c.aiRules.namingConvention = e.target.value as typeof c.aiRules.namingConvention; })}
           />
         </Field>
-        <Field label="Mức truy cập (Accessibility)">
+        <Field label="Mức truy cập (Accessibility)" tooltip="Mức WCAG (AA/AAA) — quyết định contrast ratio tối thiểu → ai-rules.md.">
           <Select
             value={config.aiRules.accessibility}
             options={[
@@ -348,7 +348,7 @@ export function BuilderPanels() {
             onChange={(e) => update((c) => { c.aiRules.accessibility = e.target.value as typeof c.aiRules.accessibility; })}
           />
         </Field>
-        <Field label="Quy tắc tuỳ chỉnh" hint="Mỗi dòng một quy tắc.">
+        <Field label="Quy tắc tuỳ chỉnh" hint="Mỗi dòng một quy tắc." tooltip="Các quy tắc tự do bạn thêm sẽ nằm trong mục Custom Rules → ai-rules.md.">
           <Textarea
             value={config.aiRules.customRules.join("\n")}
             onChange={(e) => update((c) => { c.aiRules.customRules = e.target.value.split("\n").map((r) => r.trim()).filter(Boolean); })}

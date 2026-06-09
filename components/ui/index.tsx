@@ -124,20 +124,61 @@ export function Label({ className, ...props }: React.LabelHTMLAttributes<HTMLLab
   return <label className={cn("text-sm font-medium text-foreground", className)} {...props} />;
 }
 
+export function Tooltip({ text, children, align = "left" }: { text: string; children: ReactNode; align?: "left" | "center" }) {
+  const pos = align === "center"
+    ? "left-1/2 -translate-x-1/2"
+    : "left-0";
+  const arrow = align === "center"
+    ? "left-1/2 -translate-x-1/2"
+    : "left-4";
+  return (
+    <span className="relative inline-flex group">
+      {children}
+      <span
+        role="tooltip"
+        className={cn(
+          "pointer-events-none invisible absolute bottom-full z-50 mb-2 w-56 rounded-md bg-foreground px-3 py-2 text-xs leading-relaxed text-background shadow-lg opacity-0 transition-all group-hover:visible group-hover:opacity-100",
+          pos,
+        )}
+      >
+        {text}
+        <span className={cn("absolute top-full border-4 border-transparent border-t-foreground", arrow)} />
+      </span>
+    </span>
+  );
+}
+
+export function InfoIcon() {
+  return (
+    <svg viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 text-muted-foreground transition-colors group-hover:text-foreground">
+      <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 2.5a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5ZM6.75 7h1.5v4.25h-1.5V7Z" />
+    </svg>
+  );
+}
+
 export function Field({
   label,
   hint,
+  tooltip,
   children,
   className,
 }: {
   label: string;
   hint?: string;
+  tooltip?: string;
   children: ReactNode;
   className?: string;
 }) {
   return (
     <div className={cn("grid gap-1.5", className)}>
-      <Label>{label}</Label>
+      <div className="flex items-center gap-1.5">
+        <Label>{label}</Label>
+        {tooltip ? (
+          <Tooltip text={tooltip} align={label.length > 16 ? "center" : "left"}>
+            <InfoIcon />
+          </Tooltip>
+        ) : null}
+      </div>
       {children}
       {hint ? <p className="text-xs text-muted-foreground">{hint}</p> : null}
     </div>

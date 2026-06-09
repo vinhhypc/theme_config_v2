@@ -4,7 +4,7 @@ import "./globals.css";
 import "highlight.js/styles/github.css";
 import { Nav } from "@/components/nav";
 
-const appName = process.env.NEXT_PUBLIC_APP_NAME || "DesignSync Studio";
+const appName = process.env.NEXT_PUBLIC_APP_NAME || "Theme Config";
 
 export const metadata: Metadata = {
   title: appName,

@@ -2,7 +2,7 @@
   "name": "config-theme-v2",
   "version": "1.0.0",
   "private": true,
-  "description": "DesignSync Studio — define a design system once, export markdown rules for AI code generation.",
+  "description": "Theme Config — define a design system once, export markdown rules for AI code generation.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

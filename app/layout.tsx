@@ -3,6 +3,7 @@ import "./fonts.css";
 import "./globals.css";
 import "highlight.js/styles/github.css";
 import { Nav } from "@/components/nav";
+import { Analytics } from "@vercel/analytics/react";
 
 const appName = process.env.NEXT_PUBLIC_APP_NAME || "Theme Config";
 
@@ -12,7 +13,11 @@ export const metadata: Metadata = {
     "Định nghĩa design system một lần, xuất bộ quy tắc markdown để mọi lần AI sinh code đều đồng bộ.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
@@ -24,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <Nav />
         <main className="min-h-[calc(100vh-3.5rem)]">{children}</main>
+        <Analytics />
       </body>
     </html>
   );

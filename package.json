@@ -8,6 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
@@ -36,9 +38,9 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "8",
-    "@storybook/react": "8",
-    "@storybook/react-vite": "8",
+    "@storybook/addon-essentials": "^8.6.18",
+    "@storybook/react": "^8.6.18",
+    "@storybook/react-vite": "^8.6.18",
     "@types/file-saver": "^2.0.7",
     "@types/node": "^20.16.5",
     "@types/react": "^18.3.7",
@@ -46,11 +48,12 @@
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
-    "storybook": "8",
+    "storybook": "^8.6.18",
     "tailwindcss": "^3.4.12",
     "tsup": "^8.5.1",
     "typescript": "^5.6.2",
-    "vite-tsconfig-paths": "^6.1.1",
+    "vite": "^5.4.0",
+    "vite-tsconfig-paths": "^6.1.0",
     "vitest": "^2.1.1"
   }
 }

@@ -4,8 +4,8 @@
  * Consumers wrap their app in `<ThemeProvider config={...}>` and use any of the
  * components below; everything re-themes from the provided design tokens.
  *
- *   import { ThemeProvider, Button, Card } from "@your-scope/theme-ui";
- *   import { presets, applyPreset } from "@your-scope/theme-ui";
+ *   import { ThemeProvider, Button, Card } from "@vinhhypc/config-theme";
+ *   import { presets, applyPreset } from "@vinhhypc/config-theme";
  */
 
 /* Provider + theming primitives */

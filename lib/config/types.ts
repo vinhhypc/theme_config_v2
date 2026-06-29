@@ -50,6 +50,17 @@ export interface DesignConfig {
     targetStack: TargetStack;
     /** Optional component library; only meaningful for React-based stacks. */
     componentLib: ComponentLib;
+    /**
+     * When `install` is on, the exported docs instruct consuming the prebuilt
+     * component package from npm (with `<ThemeProvider>` + usage) instead of
+     * hand-rolling components. Only applies to React stacks without another
+     * component library. Default off.
+     */
+    componentPackage: {
+      install: boolean;
+      /** npm package name to install. */
+      name: string;
+    };
   };
 
   theme: {
@@ -125,6 +136,19 @@ export interface DesignConfig {
 /** React-based stacks can layer on a component library (shadcn/antd). */
 export function stackSupportsComponentLib(stack: TargetStack): boolean {
   return stack === "react-tailwind" || stack === "next";
+}
+
+/**
+ * Whether exported docs should instruct installing the prebuilt npm component
+ * package: the toggle is on, the stack is React-based, and no other component
+ * library (shadcn/antd) is selected.
+ */
+export function usesComponentPackage(config: DesignConfig): boolean {
+  return (
+    config.meta.componentPackage.install &&
+    stackSupportsComponentLib(config.meta.targetStack) &&
+    config.meta.componentLib === "none"
+  );
 }
 
 /**

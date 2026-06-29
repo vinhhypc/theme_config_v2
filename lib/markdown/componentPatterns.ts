@@ -1,5 +1,5 @@
 import type { DesignConfig, RenderStack } from "@/lib/config/types";
-import { effectiveStack } from "@/lib/config/types";
+import { effectiveStack, usesComponentPackage } from "@/lib/config/types";
 import {
   hoverTailwindClasses,
   buttonHoverCss,
@@ -294,6 +294,44 @@ function cardExample(config: DesignConfig): string {
 }
 
 /**
+ * Install + usage block for the prebuilt component package. Emitted at the top
+ * of component-patterns.md when `meta.componentPackage.install` is on (React
+ * stacks without another component library).
+ */
+function componentPackageSection(config: DesignConfig): string {
+  const pkg = config.meta.componentPackage.name;
+  const mode = config.theme.mode === "dark" ? "dark" : "light";
+  const usage = [
+    `import { ThemeProvider, Button, Card, applyPreset } from "${pkg}";`,
+    ``,
+    `// Tokens: a preset, or the DesignConfig JSON you export from Theme Config.`,
+    `const config = applyPreset("${config.theme.style}");`,
+    ``,
+    `export default function App() {`,
+    `  return (`,
+    `    <ThemeProvider config={config} mode="${mode}">`,
+    `      <Card title="Hello" footer={<Button>OK</Button>}>`,
+    `        This card themes itself from the config.`,
+    `      </Card>`,
+    `    </ThemeProvider>`,
+    `  );`,
+    `}`,
+  ].join("\n");
+
+  return [
+    `## Use the component package (npm)`,
+    `This design system ships as a prebuilt React package — already themed by the tokens below. Install it instead of hand-rolling components:`,
+    codeBlock("bash", `npm i ${pkg} react react-dom`),
+    `Wrap your app in \`<ThemeProvider>\` and pass the chosen tokens. Import only the components you use (the rest is tree-shaken away):`,
+    codeBlock("tsx", usage),
+    `\`<ThemeProvider>\` is **required** — without it components render unstyled.`,
+    `Available components: Accordion, Alert, Avatar, Badge, Button, Calendar, Card, Checkbox, DropdownMenu, Input / Field, Pagination, Select, Sheet, Sidebar, Table, Toast, Tooltip.`,
+    `📖 Live docs / playground: https://storybook-config-theme.vercel.app`,
+    `> The token-based reference implementations below show how each component is built — handy if you need to customise or extend the packaged ones.`,
+  ].join("\n\n");
+}
+
+/**
  * `component-patterns.md` — code samples per component for the target stack.
  * All samples reference tokens only.
  */
@@ -307,6 +345,10 @@ export function generateComponentPatterns(config: DesignConfig, opts?: GenerateO
   parts.push(
     `> Reference implementations for the **${stack}** stack. Every sample uses design tokens only — no hard-coded hex/px.`,
   );
+
+  if (usesComponentPackage(config)) {
+    parts.push(componentPackageSection(config));
+  }
 
   parts.push(`## Interactive states`);
   parts.push(

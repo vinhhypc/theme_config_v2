@@ -1,5 +1,5 @@
 import type { DesignConfig } from "@/lib/config/types";
-import { effectiveStack } from "@/lib/config/types";
+import { effectiveStack, usesComponentPackage } from "@/lib/config/types";
 import { slugify } from "@/lib/utils";
 import { cssVarsToBlock, resolveTokens, shadcnCssVars, antdThemeConfig } from "@/lib/tokens";
 import { header, codeBlock, type GenerateOptions } from "./shared";
@@ -89,6 +89,13 @@ export function generateAiEntrypoint(config: DesignConfig, opts?: GenerateOption
   parts.push(codeBlock("css", css));
 
   parts.push(`## Stack setup`);
+  if (usesComponentPackage(config)) {
+    parts.push(
+      `This system ships a prebuilt component package. Install it and wrap your app in \`<ThemeProvider>\` — see the **Use the component package (npm)** section in \`${slug}-component-patterns.md\`:`,
+    );
+    parts.push(codeBlock("bash", `npm i ${config.meta.componentPackage.name} react react-dom`));
+    parts.push(`You can still apply the token setup below if you also build custom components.`);
+  }
   if (stack === "shadcn") {
     parts.push(`This system targets **shadcn/ui** (Radix + Tailwind + CSS variables). Paste these into \`globals.css\` — they map our scales onto shadcn's semantic tokens (HSL-channel format for \`hsl(var(--token))\`):`);
     parts.push(codeBlock("css", shadcnCssVars(config)));

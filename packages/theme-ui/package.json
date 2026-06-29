@@ -1,20 +1,39 @@
 {
-  "name": "@your-scope/theme-ui",
+  "name": "@vinhhypc/config-theme",
   "version": "0.1.0",
   "description": "Token-driven React components themed at runtime by a ThemeProvider.",
   "type": "module",
   "sideEffects": false,
   "license": "MIT",
-  "files": ["dist"],
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "keywords": [
+    "react",
+    "components",
+    "design-system",
+    "design-tokens",
+    "theme",
+    "ui"
+  ],
+  "homepage": "https://storybook-config-theme.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vinhhypc/theme_config_v2.git",
+    "directory": "packages/theme-ui"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/components/themed/index.js",
+  "module": "./dist/components/themed/index.js",
+  "types": "./dist/components/themed/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "types": "./dist/components/themed/index.d.ts",
+      "import": "./dist/components/themed/index.js"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "peerDependencies": {
     "react": ">=18",

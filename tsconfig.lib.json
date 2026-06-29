@@ -1,0 +1,29 @@
+{
+  // Builds the publishable component library with tsc only (no esbuild/tsup),
+  // so it works on machines where esbuild can't spawn its service (spawn EPERM).
+  // tsc emits ESM + .d.ts; `tsc-alias` then rewrites the `@/*` path alias to
+  // relative paths (and adds .js extensions) in the output.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "sourceMap": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "outDir": "packages/theme-ui/dist",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "incremental": false,
+    "composite": false,
+    "plugins": []
+  },
+  "include": ["components/themed/index.ts"],
+  "exclude": [
+    "node_modules",
+    "packages/*/dist",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.stories.tsx"
+  ]
+}

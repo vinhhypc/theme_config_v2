@@ -38,6 +38,13 @@ export const designConfigSchema = z.object({
         description: z.string().optional(),
         targetStack: z.enum(["react-tailwind", "html-css", "vue-tailwind", "next"]),
         componentLib: z.enum(["none", "shadcn", "antd"]).default("none"),
+        // Optional with a default so older saved configs migrate cleanly.
+        componentPackage: z
+          .object({
+            install: z.boolean().default(false),
+            name: z.string().min(1).default("@vinhhypc/config-theme"),
+          })
+          .default({ install: false, name: "@vinhhypc/config-theme" }),
       }),
     ),
 

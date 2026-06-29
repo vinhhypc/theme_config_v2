@@ -9,14 +9,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "build:lib": "tsup"
+    "build:lib": "tsc -p tsconfig.lib.json && tsc-alias -p tsconfig.lib.json --resolve-full-paths"
   },
   "dependencies": {
     "@codesandbox/sandpack-react": "^2.19.9",
@@ -51,6 +49,7 @@
     "postcss": "^8.4.47",
     "storybook": "8",
     "tailwindcss": "^3.4.12",
+    "tsc-alias": "^1.8.17",
     "tsup": "^8.5.1",
     "typescript": "^5.6.2",
     "vite-tsconfig-paths": "^6.1.1",

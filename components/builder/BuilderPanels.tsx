@@ -84,6 +84,31 @@ export function BuilderPanels() {
             />
           </Field>
         ) : null}
+        {stackSupportsComponentLib(config.meta.targetStack) && config.meta.componentLib === "none" ? (
+          <>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium flex items-center gap-1.5">
+                Cài component từ npm
+                <Tooltip text="Bật để docs xuất ra hướng dẫn cài & dùng bộ component dựng sẵn từ npm (ThemeProvider + component) thay vì tự code → component-patterns.md.">
+                  <InfoIcon />
+                </Tooltip>
+              </span>
+              <Switch
+                checked={config.meta.componentPackage.install}
+                onCheckedChange={(v) => update((c) => { c.meta.componentPackage.install = v; })}
+              />
+            </div>
+            {config.meta.componentPackage.install ? (
+              <Field label="Tên package npm" hint="Tên gói đã publish, dùng trong lệnh install ở component-patterns.md.">
+                <Input
+                  value={config.meta.componentPackage.name}
+                  placeholder="@scope/ten-package"
+                  onChange={(e) => update((c) => { c.meta.componentPackage.name = e.target.value; })}
+                />
+              </Field>
+            ) : null}
+          </>
+        ) : null}
       </Section>
 
       {/* Giao diện */}

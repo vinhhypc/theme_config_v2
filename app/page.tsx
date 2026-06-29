@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ExternalLink } from "lucide-react";
 import { useConfigStore } from "@/store/configStore";
 import { BuilderPanels } from "@/components/builder/BuilderPanels";
 import { ConfigActions } from "@/components/builder/ConfigActions";
@@ -8,6 +9,23 @@ import { LivePreview } from "@/components/preview/LivePreview";
 import { ComponentGallery } from "@/components/preview/ComponentGallery";
 import { ExportPanel } from "@/components/export/ExportPanel";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui";
+
+const STORYBOOK_URL = "https://storybook-config-theme.vercel.app/";
+
+/** External link styled like a tab trigger — opens the deployed Storybook. */
+function StorybookTab() {
+  return (
+    <a
+      href={STORYBOOK_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-1.5 rounded px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+    >
+      Storybook
+      <ExternalLink className="h-3.5 w-3.5" />
+    </a>
+  );
+}
 
 export default function BuilderPage() {
   const config = useConfigStore((s) => s.config);
@@ -48,6 +66,7 @@ export default function BuilderPage() {
             <TabsList>
               <TabsTrigger value="preview">Live preview</TabsTrigger>
               <TabsTrigger value="gallery">Thư viện component</TabsTrigger>
+              <StorybookTab />
             </TabsList>
           </div>
           <TabsContent value="preview" className="p-4">
@@ -73,6 +92,7 @@ export default function BuilderPage() {
               <TabsTrigger value="preview">Live preview</TabsTrigger>
               <TabsTrigger value="gallery">Thư viện component</TabsTrigger>
               <TabsTrigger value="export">Xuất markdown</TabsTrigger>
+              <StorybookTab />
             </TabsList>
           </div>
           <div className="min-h-0 flex-1 overflow-y-auto">

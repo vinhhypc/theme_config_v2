@@ -1,0 +1,23 @@
+{
+  "name": "@your-scope/theme-ui",
+  "version": "0.1.0",
+  "description": "Token-driven React components themed at runtime by a ThemeProvider.",
+  "type": "module",
+  "sideEffects": false,
+  "license": "MIT",
+  "files": ["dist"],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  }
+}

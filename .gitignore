@@ -11,6 +11,9 @@ next-env.d.ts
 # production
 /build
 
+# component library build output (Model A npm package)
+/packages/*/dist
+
 # misc
 .DS_Store
 *.pem
@@ -29,3 +32,7 @@ yarn-error.log*
 
 # testing
 /coverage
+
+# storybook
+/storybook-static
+storybook-dev.log
